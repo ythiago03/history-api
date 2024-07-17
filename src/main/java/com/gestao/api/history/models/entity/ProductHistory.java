@@ -1,5 +1,6 @@
 package com.gestao.api.history.models.entity;
 
+import com.gestao.api.history.models.dto.HistoryDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +28,11 @@ public class ProductHistory {
     @Column
     private int outcomes;
 
-
+    public ProductHistory(HistoryDTO dto){
+        this.amount = dto.amount();
+        this.productName = dto.productName();
+        this.productId = dto.productId();
+        this.incomes = 0;
+        this.outcomes = 0;
+    }
 }
