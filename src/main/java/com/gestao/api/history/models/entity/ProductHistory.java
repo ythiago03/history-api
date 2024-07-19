@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+
 @Entity
 @Table(name = "product_history")
 @AllArgsConstructor
@@ -28,10 +31,14 @@ public class ProductHistory {
     @Column
     private int outcomes;
 
+    @Column
+    private LocalDate insertionDate;
+
     public ProductHistory(HistoryDTO dto){
         this.amount = dto.amount();
         this.productName = dto.productName();
         this.productId = dto.productId();
+        this.insertionDate = LocalDate.now();
         this.incomes = 0;
         this.outcomes = 0;
     }
