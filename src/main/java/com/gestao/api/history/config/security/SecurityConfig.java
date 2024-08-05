@@ -29,6 +29,7 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.GET, "/history/filtered/*").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers(HttpMethod.POST, "/history/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/history/filtered/*").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
