@@ -4,6 +4,9 @@ import com.gestao.api.history.models.dto.HistoryDTO;
 import com.gestao.api.history.models.entity.ProductHistory;
 import com.gestao.api.history.services.HistoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +28,13 @@ public class HistoryController {
 
     @Operation(summary = "Save product history", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "")
+            @ApiResponse(
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductHistory.class)
+                    ),
+                    responseCode = "201"
+            )
     })
     @PostMapping
     public ResponseEntity saveHistory(@RequestBody HistoryDTO dto){
@@ -43,10 +52,14 @@ public class HistoryController {
         return ResponseEntity.ok(historyDTOList);
     }
 
+    @Operation(summary = "Return all products filtered by product id and date interval", method = "GET")
     @GetMapping("filtered/{productId}")
     public ResponseEntity<List<ProductHistory>> getFilteredByIdAndDate(
+            @Parameter(description = "Product Id", example = "01")
             @PathVariable String productId,
+            @Parameter(description = "Search start date", example = "2024-07-22")
             @RequestParam(name = "startAt") String startAt,
+            @Parameter(description = "Search final date", example = "2024-07-25")
             @RequestParam(name = "endAt") String endAt
     ){
         List<ProductHistory> historyDTOList = historyService.findAllByIdAndDate(productId, startAt, endAt);
